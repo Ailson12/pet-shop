@@ -4,8 +4,12 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import { BootstrapVue } from 'bootstrap-vue'
+import VueIziToast from 'vue-izitoast';
 
 Vue.use(BootstrapVue)
+Vue.use(VueIziToast, {
+  position: "topRight"
+});
 
 Vue.config.productionTip = false
 

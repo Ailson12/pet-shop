@@ -82,10 +82,10 @@ export default {
         async salvar() {
             try {
                 const { data } = await axios.post("/funcionarios", this.campos);
+		        this.$toast.success(data?.mensagem ?? "Operação realizada com sucesso!", "Sucesso!");
                 this.$emit("salvar", true);
-                alert(data?.mensagem ?? "Operação realizada com sucesso!");
             } catch ({ response }) {
-                alert(response?.data?.mensagem ?? "Erro ao realizar operação");
+                this.$toast.error(response?.data?.mensagem ?? "Erro ao realizar operação!", "Erro");
             } finally {
                 this.campos = {};
                 this.$bvModal.hide("funcionario-modal")

@@ -55,7 +55,7 @@ export default {
 				const { data } = await axios.get("/funcionarios");
 				this.funcionarios = data.dados;
 			} catch (error) {
-				console.log("Erro", error);
+				this.$toast.error(response?.data?.mensagem ?? "Erro ao listar funcionários!", "Erro");
 			}
 		},
 		cadastrar(modalId) {
@@ -64,7 +64,3 @@ export default {
 	}
 }
 </script>
-
-<style>
-
-</style>
