@@ -1,22 +1,28 @@
 <template>
 	<div>
-		<div>
-			<b-card-group deck>
-				<b-card header-tag="header" footer-tag="footer">
-					<template #header>
-						<h4>Funcionários</h4>
-					</template>
-					<b-table striped  bordered	hover :fields="cabecalho" :items="funcionarios">
-					</b-table>
-				</b-card>
-			</b-card-group>
-		</div>
+		<h4 class="mb-4">Funcionários</h4>
+		<b-card-group deck>
+			<b-card header-tag="header" footer-tag="footer">
+				<template #header>
+					<b-button @click="cadastrar('funcionario-modal')" variant="primary">Adicionar <i class="cil-user-plus"></i></b-button>
+				</template>
+				<b-table striped  bordered	hover :fields="cabecalho" :items="funcionarios" />
+			</b-card>
+		</b-card-group>
+
+		<funcionario-modal
+			@salvar="getFuncionarios" 
+		/>
 	</div>
 </template>
 
 <script>
+import FuncionarioModal from "./form/FuncionarioModal"
 export default {
     name: "Funcionario",
+	components: {
+		FuncionarioModal
+	},
 	data() {
 		return {
 			cabecalho: [
@@ -51,6 +57,9 @@ export default {
 			} catch (error) {
 				console.log("Erro", error);
 			}
+		},
+		cadastrar(modalId) {
+			this.$bvModal.show(modalId)
 		}
 	}
 }
