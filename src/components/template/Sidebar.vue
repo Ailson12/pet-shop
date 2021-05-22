@@ -7,15 +7,8 @@
                     <i id="logo" class="cil-animal"></i>
                 </div>
             </div>
-            <ul class="c-sidebar-nav ps ps--active-y">
-                <li class="c-sidebar-nav-divider"></li>
-                <li class="c-sidebar-nav-title">Cadastro</li>
-                   <li class="c-sidebar-nav-item" >
-                        <a href="#" class="c-sidebar-nav-link">
-                            Produtos
-                            <span class="cil-basket ml-2"></span>
-                        </a>
-                </li>
+             <ul class="c-sidebar-nav ps ps--active-y">
+                <item-sidebar :routes="routesMenu" />
             </ul>
         </div>
         <div class="c-wrapper c-fixed-components">
@@ -53,8 +46,19 @@
 </template>
 
 <script>
+import routesMenu from "../../assets/js/menu-router"
+import ItemSidebar from "./ItemSidebar"
+
 export default {
-    name: "Sidebar"
+    name: "Sidebar",
+    data() {
+        return {
+            routesMenu
+        }
+    },
+    components: {
+        ItemSidebar
+    }
 }
 </script>
 
