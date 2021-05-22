@@ -34,9 +34,7 @@
                 <main class="c-main">
                     <div class="container-fluid">
                         <transition name="slide-fade" mode="out-in">
-                            <div>
-                                Conteudo
-                            </div>
+                            <slot name="conteudo"></slot>
                         </transition>
                     </div>
                 </main>
