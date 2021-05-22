@@ -5,11 +5,15 @@ import App from './App.vue'
 import router from './router'
 import { BootstrapVue } from 'bootstrap-vue'
 import VueIziToast from 'vue-izitoast';
+import Load from "./components/Load"
 
 Vue.use(BootstrapVue)
 Vue.use(VueIziToast, {
   position: "topRight"
 });
+
+// Componentes globais
+Vue.component("load", Load);
 
 Vue.config.productionTip = false
 

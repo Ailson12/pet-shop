@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<load :load="load"/>
 		<h4 class="mb-4">Funcionários</h4>
 		<b-card-group deck>
 			<b-card header-tag="header" footer-tag="footer">
@@ -43,7 +44,8 @@ export default {
 					label: "Sexo"
 				}
 			],
-			funcionarios: []
+			funcionarios: [],
+			load: true
 		}
 	},
 	created() {
@@ -56,6 +58,8 @@ export default {
 				this.funcionarios = data.dados;
 			} catch (error) {
 				this.$toast.error(response?.data?.mensagem ?? "Erro ao listar funcionários!", "Erro");
+			} finally {
+				this.load = false;
 			}
 		},
 		cadastrar(modalId) {

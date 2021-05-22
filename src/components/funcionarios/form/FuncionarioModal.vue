@@ -8,7 +8,8 @@
             size="lg"
             @ok.prevent="salvar"
         >
-            <form ref="form">
+        <load :load="load"/>
+            <form ref="form" autocomplete="off">
                 <b-row>
                     <b-col cols="12">
                         <b-form-group
@@ -66,6 +67,7 @@ export default {
     name: "FuncionarioModal",
     data() {
         return {
+            load: false,
             campos: {},
             opcoesSexo: [
                 {value: "M", text: "Masculino"},
@@ -80,6 +82,7 @@ export default {
     },
     methods: {
         async salvar() {
+            this.load = true;
             try {
                 const { data } = await axios.post("/funcionarios", this.campos);
 		        this.$toast.success(data?.mensagem ?? "Operação realizada com sucesso!", "Sucesso!");
@@ -88,6 +91,7 @@ export default {
                 this.$toast.error(response?.data?.mensagem ?? "Erro ao realizar operação!", "Erro");
             } finally {
                 this.campos = {};
+                 this.load = false;
                 this.$bvModal.hide("funcionario-modal")
             }
         }
