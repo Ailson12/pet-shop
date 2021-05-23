@@ -26,8 +26,8 @@
             </b-col>
         </b-row>
 
-        <b-row>
-            <b-col lg="6">
+        <b-row class="mt-3">
+            <b-col lg="6" md="12">
                 <div class=card>
                     <div class="card-header">
                         <h5 class="card-title">Funcionários por Gênero</h5>
@@ -42,6 +42,24 @@
                         ]"
                         :options="options"
                         :labels="['Homens', 'Mulheres']"
+                    />
+                    </div>
+                </div>
+            </b-col>
+            <b-col lg=6 md="12">
+                <div class=card>
+                    <div class="card-header">
+                        <h5 class="card-title">Funcionários por Setor</h5>
+                    </div>
+                    <div class="card-body">
+                    <chart-pie
+                        :datasets="[
+                            {
+                                data: dadosSetoresFuncionarios,
+                                backgroundColor: ['#321fdb', '#e55353', '#39f']
+                            }
+                        ]"
+                        :labels="labelSetoresFuncionarios"
                     />
                     </div>
                 </div>
@@ -62,6 +80,8 @@ export default {
             totalFuncionarios: 0,
             funcionariosMasculino: 0,
             funcionariosFeminino: 0,
+            dadosSetoresFuncionarios: [],
+            labelSetoresFuncionarios: [],
             options: {
                 tooltips: {
                     callbacks: {
@@ -86,6 +106,8 @@ export default {
         this.getTotalFuncionarios("totalFuncionarios");
         this.getTotalFuncionarios("funcionariosMasculino", "M");
         this.getTotalFuncionarios("funcionariosFeminino", "F");
+
+        this.getSetorFuncionarios();
     },
     methods: {
         async getTotalFuncionarios(atributo, sexo = null) {
@@ -97,6 +119,22 @@ export default {
                 }
             } catch ({ response }) {
                 this.$toast.error(response?.data?.mensagem ?? "Erro ao realizar operação.", "Erro");
+            }
+        },
+        async getSetorFuncionarios() {
+            try {
+                const { data } = await axios.get("/setores-funcionario");
+                const result = data[0];
+
+                if (result) {
+                    const dados = result.map((item) => item.total);
+                    this.dadosSetoresFuncionarios = dados;
+
+                    const setores = result.map((item) => item.setor);
+                    this.labelSetoresFuncionarios = setores;
+                }
+            } catch ({ response }) {
+                this.$toast.error(response?.data?.mensagem ?? "Erro ao obter setores dos funcionários", "Erro");
             }
         }
     }
