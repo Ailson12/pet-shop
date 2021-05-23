@@ -95,6 +95,7 @@ export default {
 			try {
 				this.$toast.question("Deseja deletar este funcionário ?", "Atenção", {
 					position: "center",
+					timeout: 4500,
 					buttons: [
 						[
 							"<button>Sim</button>",

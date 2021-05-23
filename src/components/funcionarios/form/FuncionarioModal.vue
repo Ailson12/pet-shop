@@ -6,17 +6,17 @@
             ok-title="Salvar"
             cancel-title="Cancelar"
             size="lg"
-            @ok.prevent="salvar"
+            @ok.prevent="validarCampos"
             @cancel="reset"
         >
         <load :load="load"/>
             <form ref="form" autocomplete="off">
                 <b-row>
-                    <b-col cols="12">
-                        <b-form-group
-                            label="Nome"
-                            label-for="nome"
-                        >
+                    <b-col lg="12">
+                        <b-form-group>
+                            <template v-slot:label>
+                                <label for="nome">Nome <span class="text-danger">*</span></label>
+                            </template>
                             <b-form-input
                                 id="nome"
                                 type="text"
@@ -26,11 +26,12 @@
                             />
                         </b-form-group>
                     </b-col>
-                    <b-col cols=6>
-                        <b-form-group
-                            label="Data de Nascimento"
-                            label-for="data_nascimento"
-                        >
+                    <b-col lg="6" md="12">
+                        <b-form-group>
+                            <template v-slot:label>
+                                <label for="data_nascimento">Data de Nascimento <span class="text-danger">*</span></label>
+                            </template>
+
                             <b-form-input
                                 id="data_nascimento"
                                 type="date"
@@ -40,21 +41,21 @@
                             />
                         </b-form-group>
                     </b-col>
-                    <b-col cols=6>
-                        <b-form-group
-                            label="Sexo"
-                            label-for="sexo"
-                        >
-                            <b-form-select id="sexo" v-model="campos.sexo" :options="opcoesSexo" />
+                    <b-col lg="6" md="12">
+                        <b-form-group>
+                            <template v-slot:label>
+                                <label for="sexo">Sexo <span class="text-danger">*</span></label>
+                            </template>
+                            <b-form-select id="sexo" required v-model="campos.sexo" :options="opcoesSexo" />
                         </b-form-group>
                     </b-col>
 
-                    <b-col cols="6">
-                        <b-form-group
-                            label="Setor"
-                            label-for="setor"
-                        >
-                            <b-form-select id="setor" :options="opcoesSetor" v-model="campos.setor" />
+                    <b-col lg="6" md="12">
+                        <b-form-group>
+                            <template v-slot:label>
+                                <label for="setor">Setor <span class="text-danger">*</span></label>
+                            </template>
+                            <b-form-select id="setor" required :options="opcoesSetor" v-model="campos.setor" />
                         </b-form-group>
                     </b-col>
                 </b-row>
@@ -76,6 +77,7 @@ export default {
     data() {
         return {
             load: false,
+            teste: "teste",
             campos: {},
             opcoesSexo: [
                 {value: "M", text: "Masculino"},
@@ -89,6 +91,12 @@ export default {
         }
     },
     methods: {
+        validarCampos() {
+            if (this.$refs.form.checkValidity())
+                this.salvar();
+            else
+                this.$toast.warning("Há campos inválidos", "Atenção!");
+        },
         async salvar() {
             this.load = true;
             try {

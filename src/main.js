@@ -10,7 +10,8 @@ import { CChartPie  } from '@coreui/vue-chartjs'
 
 Vue.use(BootstrapVue)
 Vue.use(VueIziToast, {
-  position: "topRight"
+  position: "topRight",
+  timeout: 2300
 });
 
 // Componentes globais
