@@ -1,13 +1,13 @@
 <template>
 	<div>
-		<load :load="load"/>
 		<h4 class="mb-4">Funcionários</h4>
 		<b-card-group deck>
 			<b-card header-tag="header" footer-tag="footer">
 				<template #header>
 					<b-button @click="openModal('funcionario-modal')" variant="primary">Adicionar <i class="cil-user-plus"></i></b-button>
 				</template>
-				<b-table striped  bordered	hover :fields="cabecalho" :items="funcionarios">
+				<load :load="load"/>
+				<b-table striped  bordered responsive hover :fields="cabecalho" :items="funcionarios">
 				 	<template #cell(id)="{ item }">
 						 <b-dropdown text="Ações" variant="primary">
 							<b-dropdown-item @click="getFuncionarioById(item.id)">

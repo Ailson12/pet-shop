@@ -32,12 +32,14 @@
                                 <label for="data_nascimento">Data de Nascimento <span class="text-danger">*</span></label>
                             </template>
 
-                            <b-form-input
-                                id="data_nascimento"
-                                type="date"
-                                placeholder="Data de nascimento"
-                                required
+                            <datetime
                                 v-model="campos.data_nascimento"
+                                format="dd/MM/yyyy"
+                                id="data_nascimento"
+                                input-class="form-control"
+                                placeholder="Data de nascimento"
+                                @input="setDataNascimento"
+                                :phrases="{ok: 'OK', cancel: 'Cancelar'}"
                             />
                         </b-form-group>
                     </b-col>
@@ -65,6 +67,9 @@
 </template>
 
 <script>
+import { Datetime } from 'vue-datetime';
+import DateTimeMixin from "../../../mixins/DateTimeMixin"
+
 export default {
     name: "FuncionarioModal",
     props: {
@@ -74,6 +79,10 @@ export default {
             default: {}
         }
     },
+    components: {
+        "datetime": Datetime
+    },
+    mixins: [DateTimeMixin],
     data() {
         return {
             load: false,
@@ -96,6 +105,9 @@ export default {
                 this.salvar();
             else
                 this.$toast.warning("Há campos inválidos", "Atenção!");
+        },
+        setDataNascimento(valor) {
+            this.campos.data_nascimento = this.setData(valor);
         },
         async salvar() {
             this.load = true;
