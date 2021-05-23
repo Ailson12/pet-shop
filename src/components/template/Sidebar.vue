@@ -3,7 +3,7 @@
         <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
             <div class="c-sidebar-brand d-lg-down-none">
                 <div class="c-sidebar-brand-full">
-                    <h5 class="d-inline mr-2">Mimo canino</h5>
+                    <h5 class="d-inline mr-2">{{ APP_NAME }}</h5>
                     <i id="logo" class="cil-animal"></i>
                 </div>
             </div>
@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import { APP_NAME } from "../../../env"
 import routesMenu from "../../assets/js/menu-router"
 import ItemSidebar from "./ItemSidebar"
 
@@ -51,6 +52,7 @@ export default {
     name: "Sidebar",
     data() {
         return {
+            APP_NAME,
             routesMenu
         }
     },
@@ -60,6 +62,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+    #logo {
+        font-size: 1.2rem;
+    }
 </style>
