@@ -25,6 +25,28 @@
                 />
             </b-col>
         </b-row>
+
+        <b-row>
+            <b-col lg="6">
+                <div class=card>
+                    <div class="card-header">
+                        <h5 class="card-title">Funcionários por Gênero</h5>
+                    </div>
+                    <div class="card-body">
+                    <chart-pie
+                        :datasets="[
+                            {
+                                data: [funcionariosMasculino, funcionariosFeminino],
+                                backgroundColor: ['#321fdb', '#e55353']
+                            }
+                        ]"
+                        :options="options"
+                        :labels="['Homens', 'Mulheres']"
+                    />
+                    </div>
+                </div>
+            </b-col>
+        </b-row>
     </div>
 </template>
 
@@ -39,7 +61,25 @@ export default {
         return {
             totalFuncionarios: 0,
             funcionariosMasculino: 0,
-            funcionariosFeminino: 0
+            funcionariosFeminino: 0,
+            options: {
+                tooltips: {
+                    callbacks: {
+                        label(tooltipItem, data) {
+                            const dataset = data.datasets[tooltipItem.datasetIndex];
+                            const total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                                return previousValue + currentValue;
+                            });
+
+                            const tooltipoLabel = data.labels[tooltipItem.index];
+                            const currentValue = dataset.data[tooltipItem.index];
+                            const porcentagem = Math.floor(((currentValue/total) * 100)+0.5);   
+
+                            return `${tooltipoLabel}: ${porcentagem}%`;
+                        }
+                    }
+                }
+            }
         }
     },
     created() {

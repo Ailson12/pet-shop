@@ -6,6 +6,7 @@ import router from './router'
 import { BootstrapVue } from 'bootstrap-vue'
 import VueIziToast from 'vue-izitoast';
 import Load from "./components/Load"
+import { CChartPie  } from '@coreui/vue-chartjs'
 
 Vue.use(BootstrapVue)
 Vue.use(VueIziToast, {
@@ -14,6 +15,7 @@ Vue.use(VueIziToast, {
 
 // Componentes globais
 Vue.component("load", Load);
+Vue.component('chart-pie', CChartPie)
 
 Vue.config.productionTip = false
 
