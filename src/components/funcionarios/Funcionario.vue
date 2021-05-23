@@ -13,6 +13,9 @@
 							<b-dropdown-item @click="getFuncionarioById(item.id)">
 								<i class="mr-2 cil-pencil"></i> Editar
 							</b-dropdown-item>
+							<b-dropdown-item @click="deletarFuncionario(item.id)">
+								<i class="mr-2 cil-trash"></i> Deletar
+							</b-dropdown-item>
 						</b-dropdown>
 					</template>
 				</b-table>
@@ -86,6 +89,32 @@ export default {
 				this.openModal("funcionario-modal");
 			} catch (error) {
 				this.$toast.error(response?.data?.mensagem ?? "Erro ao recuperar funcionário!", "Erro");
+			}
+		},
+		deletarFuncionario(id) {
+			try {
+				this.$toast.question("Deseja deletar este funcionário ?", "Atenção", {
+					position: "center",
+					buttons: [
+						[
+							"<button>Sim</button>",
+							async (instance, toast) => {
+								const { data } = await axios.delete(`/funcionarios/${id}`);
+								this.$toast.success(data?.mensagem ?? "Funcionário deletado com sucesso!");
+								this.getFuncionarios();
+								instance.hide({ transitionOut: "fadeOut" }, toast, "button");
+							}
+						],
+						[
+							"<button>Não</button>",
+							(instance, toast) => {
+								instance.hide({ transitionOut: "fadeOut" }, toast, "button");
+							}
+						]
+					]
+				});
+			} catch ({ response }) {
+				this.$toast.error(response?.data?.mensagem ?? "Erro ao deletar funcionário!", "Erro");
 			}
 		}
 	}
