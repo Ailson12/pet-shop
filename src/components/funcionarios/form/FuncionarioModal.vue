@@ -7,6 +7,7 @@
             cancel-title="Cancelar"
             size="lg"
             @ok.prevent="salvar"
+            @cancel="reset"
         >
         <load :load="load"/>
             <form ref="form" autocomplete="off">
@@ -65,6 +66,13 @@
 <script>
 export default {
     name: "FuncionarioModal",
+    props: {
+        funcionario: {
+            type: Object,
+            required: false,
+            default: {}
+        }
+    },
     data() {
         return {
             load: false,
@@ -84,16 +92,26 @@ export default {
         async salvar() {
             this.load = true;
             try {
-                const { data } = await axios.post("/funcionarios", this.campos);
+                const url = this.funcionario.id ? `/funcionarios/${this.funcionario.id}` : "/funcionarios";
+                const { data } = await axios({ url: url, method: this.funcionario.id ? "PUT" : "POST", data: this.campos});
+
 		        this.$toast.success(data?.mensagem ?? "Operação realizada com sucesso!", "Sucesso!");
                 this.$emit("salvar", true);
             } catch ({ response }) {
                 this.$toast.error(response?.data?.mensagem ?? "Erro ao realizar operação!", "Erro");
             } finally {
-                this.campos = {};
-                 this.load = false;
+                this.reset();
+                this.load = false;
                 this.$bvModal.hide("funcionario-modal")
             }
+        },
+        reset() {
+            this.campos = {}
+        }
+    },
+    watch: {
+        funcionario(valor) {
+            this.campos = valor;
         }
     }
 }
