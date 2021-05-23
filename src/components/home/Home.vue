@@ -33,6 +33,7 @@
                         <h5 class="card-title">Funcionários por Gênero</h5>
                     </div>
                     <div class="card-body">
+                    <load :load="loadChartGenero"/>
                     <chart-pie
                         :datasets="[
                             {
@@ -52,6 +53,7 @@
                         <h5 class="card-title">Funcionários por Setor</h5>
                     </div>
                     <div class="card-body">
+                    <load :load="loadChartSetor"/>
                     <chart-pie
                         :datasets="[
                             {
@@ -77,6 +79,8 @@ export default {
     },
     data() {
         return {
+            loadChartGenero: true,
+            loadChartSetor: true,
             totalFuncionarios: 0,
             funcionariosMasculino: 0,
             funcionariosFeminino: 0,
@@ -117,6 +121,10 @@ export default {
                 if (this[atributo] != undefined) {
                     this[atributo] = data.total;
                 }
+
+                if (sexo == "F") {
+                    this.loadChartGenero = false;
+                }
             } catch ({ response }) {
                 this.$toast.error(response?.data?.mensagem ?? "Erro ao realizar operação.", "Erro");
             }
@@ -132,6 +140,8 @@ export default {
 
                     const setores = result.map((item) => item.setor);
                     this.labelSetoresFuncionarios = setores;
+
+                    this.loadChartSetor = false;
                 }
             } catch ({ response }) {
                 this.$toast.error(response?.data?.mensagem ?? "Erro ao obter setores dos funcionários", "Erro");
